@@ -23,9 +23,9 @@ module.exports = (robot) ->
   robot.hear /(.*)/i, (msg) ->
 
     string = msg.match[0];
-    prob = process.env.HUBOT_TWSS_PROB or 0.98
+    prob = process.env.HUBOT_TWSS_PROB or 0.99
 
     console.log twss.prob string
     if ( twss.prob string ) >= prob
-      msg.send('That\'s what she said. Also, I\'m an annoying asshole.')
+      msg.send('That\'s what she said.')
 
