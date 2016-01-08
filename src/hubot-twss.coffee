@@ -27,5 +27,5 @@ module.exports = (robot) ->
 
     console.log twss.prob string
     if ( twss.prob string ) >= prob
-      msg.send('That\'s what she said.')
+      msg.send('That\'s what she said. Also, I\'m an annoying asshole.')
 
