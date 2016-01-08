@@ -23,7 +23,7 @@ module.exports = (robot) ->
   robot.hear /(.*)/i, (msg) ->
 
     string = msg.match[0];
-    prob = process.env.HUBOT_TWSS_PROB or 1
+    prob = process.env.HUBOT_TWSS_PROB or 0.9999
     twss.algo = 'knn'
     console.log twss.prob string
     if ( twss.prob string ) >= prob
