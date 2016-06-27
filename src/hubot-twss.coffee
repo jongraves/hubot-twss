@@ -40,3 +40,18 @@ module.exports = (robot) ->
     if ( twss.prob string ) >= prob && snappable
         robot.brain.data.lastTwssSnap = new Date
         msg.send(':snap:')
+
+  robot.respond /:snap:/, (res) ->
+    lastSnap = robot.brain.data.lastTwssSnap
+    if (lastSnap)
+        lastSnapMilliseconds = new Date(lastSnap).getTime()
+        rightNowMilliseconds = new Date().getTime()
+        if (rightNowMilliseconds - lastSnapMilliseconds) < twssCooldownInterval
+          remainingTime = lastSnapMilliseconds + twssCooldownInterval 
+          futureTime = new Date().getTime() + remainingTime
+          formattedTime = new Date(remainingTime)
+          res.reply "next snap is at " + formattedTime.toString() 
+        else
+          res.reply "ready to snap!"
+    else   
+      res.reply "ready to snap!"
