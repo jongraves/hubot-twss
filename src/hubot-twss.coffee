@@ -20,12 +20,23 @@ module.exports = (robot) ->
   #
   twss = require 'twss'
 
+  twssCooldownInterval = 15 * 60 * 1000 #15 minutes in milliseconds
+  
   robot.hear /(.*)/i, (msg) ->
 
     string = msg.match[0];
     prob = process.env.HUBOT_TWSS_PROB or 0.9991
     
     console.log twss.prob string
-    if ( twss.prob string ) >= prob
-      msg.send(':snap:')
+    
+    lastSnap = robot.brain.data.lastTwssSnap
+    snappable = !lastSnap
 
+    if (lastSnap)
+        lastSnapMilliseconds = new Date(lastSnap).getTime()
+        rightNowMilliseconds = new Date().getTime()
+        snappable = (rightNowMilliseconds - lastSnapMilliseconds) > twssCooldownInterval
+        
+    if ( twss.prob string ) >= prob && snappable
+        robot.brain.data.lastTwssSnap = new Date
+        msg.send(':snap:')
